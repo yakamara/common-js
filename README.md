@@ -34,4 +34,4 @@ Plugins
 
 Plugin | Beschreibung
 --- | ---
-... | ...
+conditionToggle | Elemente abhängig von einer Checkbox oder von Options einer Selectbox ein- und ausblenden
