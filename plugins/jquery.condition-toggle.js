@@ -35,7 +35,6 @@
             var element = this.$element;
             var settings = this.settings;
             var action = element.data('condition-action') || settings.action;
-            console.log(action);
             var showHide = action == 'show' || action == 'hide';
             action = action == 'enable' || action == 'show';
             if (typeof duration == 'undefined') {
