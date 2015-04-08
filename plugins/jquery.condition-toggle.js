@@ -5,6 +5,7 @@
         defaults = {
             condition: null,
             action: "show",
+            options: null,
             duration: "fast",
             context: "body"
         };
@@ -34,6 +35,12 @@
         toggle: function (duration) {
             var element = this.$element;
             var settings = this.settings;
+            var options = element.data('condition-options') || settings.options;
+            if (options) {
+                this.toggleOptions();
+                return;
+            }
+
             var action = element.data('condition-action') || settings.action;
             var showHide = action == 'show' || action == 'hide';
             action = action == 'enable' || action == 'show';
@@ -88,9 +95,53 @@
                     }
                 }
                 element.find('[data-condition]').each(function () {
-                    $(this).data('conditionToggle').toggle();
+                    var toggle = $(this).data('conditionToggle');
+                    if (toggle) {
+                        toggle.toggle();
+                    }
                 });
             }
+        },
+
+        toggleOptions: function () {
+            var element = this.$element;
+            var settings = this.settings;
+
+            var conditions = element.data('condition-options') || settings.options;
+            var refSelect = $('#' + settings.condition, settings.context);
+            var options = [];
+            var selected = element.find(':selected');
+            $.each(conditions, function (refId, optIds) {
+                options[refId] = [];
+                $.each(optIds, function (index, optId) {
+                    var option = element.find('[value="' + optId + '"]');
+                    if (options && option.length) {
+                        options[refId].push(option[0]);
+                        option.remove();
+                    }
+                });
+            });
+
+            element.find(':not([value])').val("");
+            refSelect.find(':not([value])').val("");
+            element.find('[value!=""]').remove();
+            var refSelected = refSelect.find(':selected').val();
+            if (refSelected != '') {
+                element.append(options[refSelected]);
+            } else {
+                element.prop('disabled', true).attr('data-disabled', true);
+            }
+            element.select2('val', selected.val());
+            refSelect.on('change', function (event) {
+                element.find('[value!=""]').remove();
+                if (event.val != '') {
+                    element.prop('disabled', false).attr('data-disabled', false);
+                    element.append(options[event.val]);
+                } else {
+                    element.prop('disabled', true).attr('data-disabled', true);
+                }
+                element.select2('val', "", true);
+            });
         }
     });
 
