@@ -7,7 +7,9 @@
             action: "show",
             options: null,
             duration: "fast",
-            context: "body"
+            context: "body",
+            onEnable: null,
+            onDisable: null
         };
 
     function ConditionToggle(element, options) {
@@ -75,8 +77,10 @@
                 }
             });
             if (enabled ^ action) {
-                //element.find('input[type="checkbox"],input[type="radio"]').iCheck('disable');
                 element.find(':input:not(:button)').prop('disabled', true);
+                if (this.settings.onDisable) {
+                    this.settings.onDisable.call(this.element);
+                }
                 if (showHide) {
                     if (duration) {
                         element.slideUp(duration);
@@ -85,8 +89,10 @@
                     }
                 }
             } else {
-                //element.find('input[data-disabled!=true][type="checkbox"],input[data-disabled!=true][type="radio"]').iCheck('enable');
                 element.find(':input:not(:button)[data-disabled!=true]').prop('disabled', false);
+                if (this.settings.onEnable) {
+                    this.settings.onEnable.call(this.element);
+                }
                 if (showHide) {
                     if (duration) {
                         element.slideDown(duration);
