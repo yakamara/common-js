@@ -25,6 +25,13 @@
         init: function () {
             var plugin = this;
             plugin.settings.condition = this.$element.data('condition') || plugin.settings.condition;
+
+            plugin.settings.options = this.$element.data('condition-options') || plugin.settings.options;
+            if (plugin.settings.options) {
+                this.toggleOptions();
+                return;
+            }
+
             $.each(plugin.settings.condition.split(/[;,]+/), function (index, ref) {
                 ref = $('#' + ref.split(':')[0], plugin.settings.context);
                 ref.on('ifChanged change', function () {
@@ -37,9 +44,8 @@
         toggle: function (duration) {
             var element = this.$element;
             var settings = this.settings;
-            var options = element.data('condition-options') || settings.options;
-            if (options) {
-                this.toggleOptions();
+
+            if (settings.options) {
                 return;
             }
 
