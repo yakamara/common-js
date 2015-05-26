@@ -58,7 +58,7 @@
                 $.each(refGroup.split(','), function (index, ref) {
                     ref = ref.split(':');
                     var options = ref[1];
-                    if (options) {
+                    if (typeof options != 'undefined') {
                         options = '[value=' + options.split('|').join('],[value=') + ']';
                     }
                     ref = $('#' + ref[0], settings.context);
@@ -77,10 +77,12 @@
                 }
             });
             if (enabled ^ action) {
-                element.find(':input:not(:button)').prop('disabled', true);
                 if (this.settings.onDisable) {
                     this.settings.onDisable.call(this.element);
                 }
+                element.find(':button:disabled:not([data-condition-disabled])').attr('data-original-disabled', 'true');
+                element.find(':button').attr('data-condition-disabled', 'true');
+                element.find(':input').prop('disabled', true);
                 if (showHide) {
                     if (duration) {
                         element.slideUp(duration);
@@ -89,10 +91,13 @@
                     }
                 }
             } else {
-                element.find(':input:not(:button)[data-disabled!=true]').prop('disabled', false);
                 if (this.settings.onEnable) {
                     this.settings.onEnable.call(this.element);
                 }
+                element.find(':input:not(:button)[data-disabled!=true]').prop('disabled', false).removeAttr('data-original-disabled');
+                element.find(':button[data-condition-disabled][data-disabled!=true][data-original-disabled!=true]').prop('disabled', false);
+                element.find(':button[data-condition-disabled][data-original-disabled=true]').removeAttr('data-original-disabled');
+                element.find(':button[data-condition-disabled]').removeAttr('data-condition-disabled');
                 if (showHide) {
                     if (duration) {
                         element.slideDown(duration);
