@@ -65,7 +65,7 @@
                     ref = ref.split(':');
                     var options = ref[1];
                     if (typeof options != 'undefined') {
-                        options = '[value=' + options.split('|').join('],[value=') + ']';
+                        options = '[value="' + options.split('|').join('"],[value="') + '"]';
                     }
                     ref = $('#' + ref[0], settings.context);
                     if (
