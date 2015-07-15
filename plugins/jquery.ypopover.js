@@ -31,6 +31,7 @@
             element.popover({
                 html: true,
                 title: element.is('[data-title]') ? element.data('title') : element.text(),
+                trigger: 'manual',
                 template: plugin.settings.template
             }).on('shown.bs.popover', function () {
                 plugin.popover = element.data('bs.popover').$tip;
@@ -49,6 +50,7 @@
                 }
                 clearInterval(plugin.resizeInterval);
             }).click(function () {
+                element.popover('toggle');
                 return false;
             });
         },
