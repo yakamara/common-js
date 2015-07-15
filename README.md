@@ -34,6 +34,6 @@ Plugins
 
 Plugin | Beschreibung
 --- | ---
-conditionToggle | Elemente abhängig von einer Checkbox oder von Options einer Selectbox ein- und ausblenden
+conditionToggle | Elemente abhängig von einer Checkbox oder von Options einer Selectbox ein- und ausblenden, oder deren Value ändern
 yPopover | Wrapper-Plugin für Bootstrap-Popovers, welches die Inhalte per Ajax lädt
 yModal | Wrapper-Plugin für Bootstrap-Modals, welches die Inhalte per Ajax lädt

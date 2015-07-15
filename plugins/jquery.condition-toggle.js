@@ -6,6 +6,7 @@
             condition: null,
             action: "show",
             options: null,
+            setValue: null,
             duration: "fast",
             context: "body",
             onEnable: null,
@@ -29,6 +30,12 @@
             plugin.settings.options = this.$element.data('condition-options') || plugin.settings.options;
             if (plugin.settings.options) {
                 this.toggleOptions();
+                return;
+            }
+
+            plugin.settings.setValue = this.$element.data('condition-set-value') || plugin.settings.setValue;
+            if (plugin.settings.setValue) {
+                this.toggleValues();
                 return;
             }
 
@@ -158,6 +165,20 @@
                     element.prop('disabled', true).attr('data-disabled', true);
                 }
                 element.select2('val', "", true);
+            });
+        },
+
+        toggleValues: function () {
+            var element = this.$element;
+            var settings = this.settings;
+
+            var refSelect = $('#' + settings.condition, settings.context);
+            refSelect.on('change', function (event) {
+                if (typeof settings.setValue[event.val] != "undefined") {
+                    element.val(settings.setValue[event.val]);
+                } else if (typeof settings.setValue.default != "undefined") {
+                    element.val(settings.setValue.default);
+                }
             });
         }
     });
