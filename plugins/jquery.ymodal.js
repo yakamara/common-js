@@ -77,21 +77,29 @@
             }
             this.isLoading = true;
 
-            var data = new FormData(form[0]);
+            var options = {
+                type: 'POST',
+                url: this.url,
+                cache: false
+            };
+
             var clicked = form.find(':submit[data-clicked]');
-            if (clicked.length) {
-                data.append(clicked.attr('name'), clicked.val());
+            if (window.FormData === undefined) {
+                options.data = form.serializeArray();
+                if (clicked.length) {
+                    options.data.push({name: clicked.attr('name'), value: clicked.val()});
+                }
+            } else {
+                options.processData = false;
+                options.contentType = false;
+                options.data = new FormData(form[0]);
+                if (clicked.length) {
+                    options.data.append(clicked.attr('name'), clicked.val());
+                }
             }
 
             var plugin = this;
-            $.ajax({
-                url: this.url,
-                data: data,
-                cache: false,
-                contentType: false,
-                processData: false,
-                type: 'POST'
-            }).done(function (data, textStatus, response) {
+            $.ajax(options).done(function (data, textStatus, response) {
                 if (response.status == 204 || response.getResponseHeader('X-Close') == 'true') {
                     plugin.modal.modal('hide');
                     if (plugin.settings.onSuccess) {
