@@ -66,6 +66,9 @@
             content.find('form').submit(function () {
                 return plugin.submit.call(plugin, $(this));
             });
+            content.find('[data-modal-close]').click(function () {
+                plugin.close.call(plugin, $(this).data('modal-close'));
+            });
             if (this.settings.onChange) {
                 this.settings.onChange(content);
             }
@@ -101,10 +104,7 @@
             var plugin = this;
             $.ajax(options).done(function (data, textStatus, response) {
                 if (response.status == 204 || response.getResponseHeader('X-Close') == 'true') {
-                    plugin.modal.modal('hide');
-                    if (plugin.settings.onSuccess) {
-                        plugin.settings.onSuccess(data, response, plugin.$element);
-                    }
+                    plugin.close.call(plugin, data, response);
                 } else {
                     plugin.replaceContent.call(plugin, data);
                 }
@@ -115,6 +115,13 @@
                 }
             });
             return false;
+        },
+
+        close: function (data, response) {
+            this.modal.modal('hide');
+            if (this.settings.onSuccess) {
+                this.settings.onSuccess(data, response, this.$element);
+            }
         }
     });
 

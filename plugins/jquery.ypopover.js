@@ -98,6 +98,9 @@
             content.find('form').submit(function () {
                 return plugin.submit.call(plugin, $(this));
             });
+            content.find('[data-popover-close]').click(function () {
+                plugin.close.call(plugin, $(this).data('popover-close'));
+            });
             if (this.settings.onChange) {
                 this.settings.onChange(content);
             }
@@ -133,13 +136,7 @@
             var plugin = this;
             $.ajax(options).done(function (data, textStatus, response) {
                 if (response.status == 204 || response.getResponseHeader('X-Close') == 'true') {
-                    plugin.$element.popover('destroy');
-                    if (plugin.deactivateButton) {
-                        plugin.$element.removeClass('active');
-                    }
-                    if (plugin.settings.onSuccess) {
-                        plugin.settings.onSuccess(data, response, plugin.$element);
-                    }
+                    plugin.close.call(plugin, data, response);
                 } else {
                     plugin.replaceContent.call(plugin, data);
                 }
@@ -150,6 +147,16 @@
                 }
             });
             return false;
+        },
+
+        close: function (data, response) {
+            this.$element.popover('destroy');
+            if (this.deactivateButton) {
+                this.$element.removeClass('active');
+            }
+            if (this.settings.onSuccess) {
+                this.settings.onSuccess(data, response, this.$element);
+            }
         }
     });
 
