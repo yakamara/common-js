@@ -5,7 +5,7 @@
         defaults = {
             container: 'body',
             popoverClass: '',
-            template: '<div class="popover"><div class="arrow"></div><button class="close" type="button">×</button><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+            template: undefined,
             onChange: undefined,
             onSuccess: undefined,
             onError: undefined
@@ -28,11 +28,17 @@
             var plugin = this;
             var element = plugin.$element;
 
+            var template = this.settings.template;
+            if (!template) {
+                var popoverClass = element.data('popover-class') || plugin.settings.popoverClass;
+                template = '<div class="popover '+popoverClass+'"><div class="arrow"></div><button class="close" type="button">×</button><h3 class="popover-title"></h3><div class="popover-content"></div></div>';
+            }
+
             element.popover({
                 html: true,
                 title: element.is('[data-title]') ? element.data('title') : element.text(),
                 trigger: 'manual',
-                template: plugin.settings.template
+                template: template
             }).on('shown.bs.popover', function () {
                 plugin.popover = element.data('bs.popover').$tip;
                 var popover = plugin.popover;

@@ -32,7 +32,7 @@
             };
             this.$element.one('click', function (e) {
                 plugin.modal = $(plugin.settings.template);
-                plugin.modal.find('.modal-dialog').addClass(plugin.settings.dialogClass);
+                plugin.modal.find('.modal-dialog').addClass(plugin.$element.data('modal-class') || plugin.settings.dialogClass);
                 $.get(plugin.$element.attr('href'), function (data) {
                     plugin.replaceContent.call(plugin, data);
                 });
