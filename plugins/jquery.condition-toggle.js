@@ -173,13 +173,17 @@
             var settings = this.settings;
 
             var refSelect = $('#' + settings.condition, settings.context);
-            refSelect.on('change', function (event) {
-                if (typeof settings.setValue[event.val] != "undefined") {
-                    element.val(settings.setValue[event.val]);
+            var change = function () {
+                if (typeof settings.setValue[refSelect.val()] != "undefined") {
+                    element.val(settings.setValue[refSelect.val()]);
                 } else if (typeof settings.setValue.default != "undefined") {
                     element.val(settings.setValue.default);
                 }
-            });
+            };
+            refSelect.change(change);
+            if ('' == element.val()) {
+                change();
+            }
         }
     });
 
