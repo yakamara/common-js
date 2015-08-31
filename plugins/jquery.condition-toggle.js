@@ -141,7 +141,7 @@
                     var option = element.find('[value="' + optId + '"]');
                     if (options && option.length) {
                         options[refId].push(option[0]);
-                        option.remove();
+                        //option.remove();
                     }
                 });
             });
@@ -151,7 +151,7 @@
             element.find('[value!=""]').remove();
             var refSelected = refSelect.find(':selected').val();
             if (refSelected != '') {
-                element.append(options[refSelected]);
+                element.append(options[refSelected] || options.default);
             } else {
                 element.prop('disabled', true).attr('data-disabled', true);
             }
@@ -160,7 +160,7 @@
                 element.find('[value!=""]').remove();
                 if (event.val != '') {
                     element.prop('disabled', false).attr('data-disabled', false);
-                    element.append(options[event.val]);
+                    element.append(options[event.val] || options.default);
                 } else {
                     element.prop('disabled', true).attr('data-disabled', true);
                 }
