@@ -5,7 +5,8 @@
         defaults = {
             container: 'body',
             dialogClass: '',
-            template: '<div class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h2 class="modal-title"></h2></div><div class="modal-body"></div></div></div></div>',
+            keyboard: true,
+            template: '<div class="modal fade" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h2 class="modal-title"></h2></div><div class="modal-body"></div></div></div></div>',
             onChange: undefined,
             onSuccess: undefined,
             onError: undefined
@@ -41,7 +42,7 @@
                 container.prepend(plugin.modal);
                 plugin.modal.modal({
                     show: true,
-                    keyboard: false
+                    keyboard: plugin.settings.keyboard
                 });
                 e.preventDefault();
                 plugin.$element.click(plugin.click);
