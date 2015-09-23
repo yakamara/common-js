@@ -5,6 +5,7 @@
         defaults = {
             container: 'body',
             popoverClass: '',
+            data: undefined,
             template: undefined,
             onChange: undefined,
             onSuccess: undefined,
@@ -80,7 +81,11 @@
                 }
             }, 100);
 
-            $.get(this.url).done(function (data) {
+            $.ajax({
+                url: this.url,
+                method: this.settings.data ? 'POST' : 'GET',
+                data: this.settings.data ? this.settings.data() : null
+            }).done(function (data) {
                 plugin.replaceContent(data);
                 if (!plugin.$element.closest('.no-focus').length) {
                     popover.find(':input:not(:button):first').focus();
@@ -130,12 +135,22 @@
                 if (clicked.length) {
                     options.data.push({name: clicked.attr('name'), value: clicked.val()});
                 }
+                if (this.settings.data) {
+                    $.each(this.settings.data(), function (index, data) {
+                        options.data.push(data);
+                    })
+                }
             } else {
                 options.processData = false;
                 options.contentType = false;
                 options.data = new FormData(form[0]);
                 if (clicked.length) {
                     options.data.append(clicked.attr('name'), clicked.val());
+                }
+                if (this.settings.data) {
+                    $.each(this.settings.data(), function (index, data) {
+                        options.data.append(data.name, data.value);
+                    })
                 }
             }
 
