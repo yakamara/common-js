@@ -39,7 +39,8 @@
                 html: true,
                 title: element.is('[data-title]') ? element.data('title') : element.text(),
                 trigger: 'manual',
-                template: template
+                template: template,
+                container: this.settings.container
             }).on('shown.bs.popover', function () {
                 plugin.popover = element.data('bs.popover').$tip;
                 var popover = plugin.popover;
