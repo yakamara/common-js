@@ -155,16 +155,18 @@
             } else {
                 element.prop('disabled', true).attr('data-disabled', true);
             }
-            element.select2('val', selected.val());
+            element.val(selected.val());
             refSelect.on('change', function (event) {
+                var selectedVal = element.val();
                 element.find('[value!=""]').remove();
-                if (event.val != '') {
+                var val = refSelect.val();
+                if (val != '') {
                     element.prop('disabled', false).attr('data-disabled', false);
-                    element.append(options[event.val] || options.default);
+                    element.append(options[val] || options.default);
                 } else {
                     element.prop('disabled', true).attr('data-disabled', true);
                 }
-                element.select2('val', "", true);
+                element.val(selectedVal).trigger('change');
             });
         },
 
@@ -174,10 +176,11 @@
 
             var refSelect = $('#' + settings.condition, settings.context);
             var change = function () {
+                // .trigger('setvalue') for inputmask
                 if (typeof settings.setValue[refSelect.val()] != "undefined") {
-                    element.val(settings.setValue[refSelect.val()]);
+                    element.val(settings.setValue[refSelect.val()]).trigger('setvalue');
                 } else if (typeof settings.setValue.default != "undefined") {
-                    element.val(settings.setValue.default);
+                    element.val(settings.setValue.default).trigger('setvalue');
                 }
             };
             refSelect.change(change);
