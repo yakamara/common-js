@@ -36,6 +36,11 @@
                 plugin.modal.find('.modal-dialog').addClass(plugin.$element.data('modal-class') || plugin.settings.dialogClass);
                 $.get(plugin.$element.attr('href'), function (data) {
                     plugin.replaceContent.call(plugin, data);
+                    if (!plugin.$element.closest('.no-focus').length) {
+                        plugin.modal.on('shown.bs.modal', function () {
+                            plugin.modal.find(':input:not(:button):first').focus();
+                        });
+                    }
                 });
 
                 var container = $(plugin.settings.container);
