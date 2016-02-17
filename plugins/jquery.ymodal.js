@@ -48,8 +48,9 @@
                 plugin.$element.click(plugin.click);
                 plugin.modal.on('hidden.bs.modal', function () {
                     plugin.init();
+                    var modalToRemove = plugin.modal;
                     setTimeout(function () {
-                        plugin.modal.remove();
+                        modalToRemove.remove();
                     }, 500);
                 });
             });
