@@ -192,8 +192,8 @@
 
     $.fn[pluginName] = function (options) {
         return this.each(function() {
-            if (!$.data(this, "plugin_" + pluginName)) {
-                $.data(this, "plugin_" + pluginName, new ConditionToggle(this, options));
+            if (!$.data(this, pluginName)) {
+                $.data(this, pluginName, new ConditionToggle(this, options));
             }
         });
     };
