@@ -78,7 +78,8 @@
                     if (
                         ref.is('select') && !ref.find(options).is(':selected') ||
                         ref.is('div') && !ref.find(options).is(':checked') ||
-                        ref.is('input') && !ref.is(':enabled:checked')
+                        ref.is('input') && !ref.is(':enabled:checked') ||
+                        ref.is('a') && !ref.is('.active')
                     ) {
                         groupEnabled = false;
                         return false;
