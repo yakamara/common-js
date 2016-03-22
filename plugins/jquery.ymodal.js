@@ -41,6 +41,10 @@
                             plugin.modal.find(':input:not(:button):first').focus();
                         });
                     }
+                }).fail(function (response) {
+                    if (plugin.settings.onError) {
+                        plugin.settings.onError.call(plugin, response);
+                    }
                 });
 
                 var container = $(plugin.settings.container);
@@ -77,7 +81,7 @@
                 plugin.close.call(plugin, $(this).data('modal-close'));
             });
             if (this.settings.onChange) {
-                this.settings.onChange(content);
+                this.settings.onChange.call(plugin, content);
             }
         },
 
@@ -118,7 +122,7 @@
                 plugin.isLoading = false;
             }).fail(function (response) {
                 if (plugin.settings.onError) {
-                    plugin.settings.onError(response, plugin.$element);
+                    plugin.settings.onError.call(plugin, response);
                 }
             });
             return false;
@@ -127,7 +131,7 @@
         close: function (data, response) {
             this.modal.modal('hide');
             if (this.settings.onSuccess) {
-                this.settings.onSuccess(data, response, this.$element);
+                this.settings.onSuccess.call(plugin, data, response);
             }
         }
     });

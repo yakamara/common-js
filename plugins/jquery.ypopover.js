@@ -93,7 +93,7 @@
                 }
             }).fail(function (response) {
                 if (plugin.settings.onError) {
-                    plugin.settings.onError(response, plugin.$element);
+                    plugin.settings.onError.call(plugin, response);
                 }
             });
         },
@@ -114,7 +114,7 @@
                 plugin.close.call(plugin, $(this).data('popover-close'));
             });
             if (this.settings.onChange) {
-                this.settings.onChange(content);
+                this.settings.onChange.call(plugin, content);
             }
         },
 
@@ -165,7 +165,7 @@
                 plugin.isLoading = false;
             }).fail(function (response) {
                 if (plugin.settings.onError) {
-                    plugin.settings.onError(response, plugin.$element);
+                    plugin.settings.onError.call(plugin, response);
                 }
             });
             return false;
@@ -177,7 +177,7 @@
                 this.$element.removeClass('active');
             }
             if (this.settings.onSuccess) {
-                this.settings.onSuccess(data, response, this.$element);
+                this.settings.onSuccess.call(plugin, data, response);
             }
         }
     });
