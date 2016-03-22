@@ -131,7 +131,7 @@
         close: function (data, response) {
             this.modal.modal('hide');
             if (this.settings.onSuccess) {
-                this.settings.onSuccess.call(plugin, data, response);
+                this.settings.onSuccess(data, response);
             }
         }
     });
