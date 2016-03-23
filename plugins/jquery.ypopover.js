@@ -177,7 +177,7 @@
                 this.$element.removeClass('active');
             }
             if (this.settings.onSuccess) {
-                this.settings.onSuccess(data, response);
+                this.settings.onSuccess.call(this, data, response);
             }
         }
     });
