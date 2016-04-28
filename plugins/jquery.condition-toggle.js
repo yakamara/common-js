@@ -121,7 +121,7 @@
                 }
                 element.find('[data-condition]').each(function () {
                     var toggle = $(this).data('conditionToggle');
-                    if (toggle) {
+                    if (toggle && !toggle.settings.options && !toggle.settings.setValue) {
                         toggle.toggle();
                     }
                 });
