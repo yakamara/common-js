@@ -41,7 +41,7 @@
 
             $.each(plugin.settings.condition.split(/[;,]+/), function (index, ref) {
                 ref = $('#' + ref.split(':')[0], plugin.settings.context);
-                ref.on(ref.data('iCheck') ? 'ifChanged' : 'change', function () {
+                ref.on(ref.data('iCheck') || ref.is('div') && ref.find(':radio:first').data('iCheck') ? 'ifChanged' : 'change', function () {
                     plugin.toggle();
                 });
             });
