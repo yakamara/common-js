@@ -57,6 +57,9 @@
             }
 
             var action = element.data('condition-action') || settings.action;
+            action = action.split('|');
+            var action2 = action[1];
+            action = action[0];
             var showHide = action == 'show' || action == 'hide';
             action = action == 'enable' || action == 'show';
             if (typeof duration == 'undefined') {
@@ -118,6 +121,16 @@
                 element.find(':button:disabled:not([data-condition-disabled])').attr('data-original-disabled', 'true');
                 element.find(':button').attr('data-condition-disabled', 'true');
                 element.find(':input').prop('disabled', true);
+                if ('check' == action2) {
+                    element.find(':checkbox').each(function () {
+                        var $this = $(this);
+                        if ($this.data('iCheck')) {
+                            $this.iCheck('check');
+                        } else {
+                            $this.prop('checked', true);
+                        }
+                    });
+                }
                 if (showHide) {
                     if (duration) {
                         element.slideUp(duration);
