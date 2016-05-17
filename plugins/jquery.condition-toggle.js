@@ -71,15 +71,36 @@
                 $.each(refGroup.split(','), function (index, ref) {
                     ref = ref.split(':');
                     var options = ref[1];
+                    ref = $('#' + ref[0], settings.context);
+                    if (ref.is('a')) {
+                        groupEnabled = ref.is('.active');
+                        return groupEnabled;
+                    }
+                    if (ref.is(':checkbox, :radio')) {
+                        groupEnabled = ref.is(':enabled:checked');
+                        return groupEnabled;
+                    }
+                    if (ref.is(':input:not(select)')) {
+                        if (!ref.is(':enabled')) {
+                            groupEnabled = false;
+                            return false;
+                        }
+                        $.each(options.split('|'), function (index, value) {
+                            if ('!' == value.charAt(0)) {
+                                groupEnabled = ref.val() != value.substring(1);
+                            } else {
+                                groupEnabled = ref.val() == value;
+                            }
+                            return groupEnabled;
+                        });
+                        return groupEnabled;
+                    }
                     if (typeof options != 'undefined') {
                         options = '[value="' + options.split('|').join('"],[value="') + '"]';
                     }
-                    ref = $('#' + ref[0], settings.context);
                     if (
                         ref.is('select') && !ref.find(options).is(':selected') ||
-                        ref.is('div') && !ref.find(options).is(':checked') ||
-                        ref.is('input') && !ref.is(':enabled:checked') ||
-                        ref.is('a') && !ref.is('.active')
+                        ref.is('div') && !ref.find(options).is(':checked')
                     ) {
                         groupEnabled = false;
                         return false;
