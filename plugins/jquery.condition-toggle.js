@@ -130,6 +130,9 @@
                             $this.prop('checked', true);
                         }
                     });
+                } else if ('reset' == action2) {
+                    element.find(':text').val('');
+                    element.find('select').val('').trigger('change');
                 }
                 if (showHide) {
                     if (duration) {
