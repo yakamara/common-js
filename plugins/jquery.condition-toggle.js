@@ -98,9 +98,11 @@
                         });
                         return groupEnabled;
                     }
-                    if (typeof options != 'undefined') {
-                        options = '[value="' + options.split('|').join('"],[value="') + '"]';
+                    if (typeof options == 'undefined') {
+                        groupEnabled = ref.val() ? true : false;
+                        return groupEnabled;
                     }
+                    options = '[value="' + options.split('|').join('"],[value="') + '"]';
                     if (
                         ref.is('select') && !ref.find(options).is(':selected') ||
                         ref.is('div') && !ref.find(options).is(':checked')
