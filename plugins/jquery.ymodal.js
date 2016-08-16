@@ -111,6 +111,8 @@
                 cache: false
             };
 
+            this.$element.find(':submit').prop('disabled', true);
+
             var clicked = form.find(':submit[data-clicked]');
             if (window.FormData === undefined) {
                 options.data = form.serializeArray();
