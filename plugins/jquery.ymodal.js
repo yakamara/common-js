@@ -48,7 +48,12 @@
             this.$element.one('click', function (e) {
                 plugin.modal = $(plugin.settings.template);
                 plugin.modal.find('.modal-dialog').addClass(plugin.$element.data('modal-class') || plugin.settings.dialogClass);
-                $.get(plugin.$element.attr('href'), function (data) {
+                var options = {
+                    type: 'GET',
+                    url: plugin.$element.attr('href'),
+                    headers: {'YMODAL': '1'}
+                };
+                $.ajax(options).done(function (data) {
                     plugin.replaceContent.call(plugin, data);
                     if (!plugin.$element.closest('.no-focus').length) {
                         plugin.modal.on('shown.bs.modal', function () {
@@ -108,7 +113,8 @@
             var options = {
                 type: 'POST',
                 url: this.url,
-                cache: false
+                cache: false,
+                headers: {'YMODAL': '1'}
             };
 
             this.$element.find(':submit').prop('disabled', true);
