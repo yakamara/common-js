@@ -51,7 +51,7 @@
                 var options = {
                     type: 'GET',
                     url: plugin.$element.attr('href'),
-                    headers: {'YMODAL': '1'}
+                    headers: {'X-YMODAL': '1'}
                 };
                 $.ajax(options).done(function (data) {
                     plugin.replaceContent.call(plugin, data);
@@ -114,7 +114,7 @@
                 type: 'POST',
                 url: this.url,
                 cache: false,
-                headers: {'YMODAL': '1'}
+                headers: {'X-YMODAL': '1'}
             };
 
             this.$element.find(':submit').prop('disabled', true);
