@@ -19,6 +19,7 @@
         defaults = {
             container: 'body',
             popoverClass: '',
+            placement: 'right',
             data: undefined,
             template: undefined,
             onChange: undefined,
@@ -53,6 +54,7 @@
                 html: true,
                 title: element.is('[data-title]') ? element.data('title') : element.text(),
                 trigger: 'manual',
+                placement: element.is('[data-placement]') ? element.data('placement') : this.settings.placement,
                 template: template,
                 container: this.settings.container
             }).on('shown.bs.popover', function () {
