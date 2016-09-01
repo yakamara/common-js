@@ -99,6 +99,7 @@
             $.ajax({
                 url: this.url,
                 method: this.settings.data ? 'POST' : 'GET',
+                headers: {'X-YPOPOVER': '1'},
                 data: this.settings.data ? this.settings.data() : null
             }).done(function (data) {
                 plugin.replaceContent(data);
@@ -141,7 +142,8 @@
             var options = {
                 type: 'POST',
                 url: this.url,
-                cache: false
+                cache: false,
+                headers: {'X-YPOPOVER': '1'}
             };
 
             this.popover.find(':submit').prop('disabled', true);
