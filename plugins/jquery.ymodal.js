@@ -63,6 +63,8 @@
                 }).fail(function (response) {
                     if (plugin.settings.onError) {
                         plugin.settings.onError.call(plugin, response);
+                    } else {
+                        plugin.replaceContent.call(plugin, response.responseText);
                     }
                 });
 
@@ -145,6 +147,8 @@
             }).fail(function (response) {
                 if (plugin.settings.onError) {
                     plugin.settings.onError.call(plugin, response);
+                } else {
+                    plugin.replaceContent.call(plugin, response.responseText);
                 }
             });
             return false;
