@@ -48,25 +48,9 @@
             this.$element.one('click', function (e) {
                 plugin.modal = $(plugin.settings.template);
                 plugin.modal.find('.modal-dialog').addClass(plugin.$element.data('modal-class') || plugin.settings.dialogClass);
-                var options = {
-                    type: 'GET',
-                    url: plugin.$element.attr('href'),
-                    headers: {'X-YMODAL': '1'}
-                };
-                $.ajax(options).done(function (data) {
-                    plugin.replaceContent.call(plugin, data);
-                    if (!plugin.$element.closest('.no-focus').length) {
-                        plugin.modal.on('shown.bs.modal', function () {
-                            plugin.modal.find(':input:not(:button):first').focus();
-                        });
-                    }
-                }).fail(function (response) {
-                    if (plugin.settings.onError) {
-                        plugin.settings.onError.call(plugin, response);
-                    } else {
-                        plugin.replaceContent.call(plugin, response.responseText);
-                    }
-                });
+                plugin.modal.data('yModal', plugin);
+
+                plugin.load();
 
                 var container = $(plugin.settings.container);
                 container.prepend(plugin.modal);
@@ -86,6 +70,33 @@
             });
         },
 
+        load: function (url) {
+            if (url) {
+                this.url = url;
+            }
+
+            var options = {
+                type: 'GET',
+                url: this.url,
+                headers: {'X-YMODAL': '1'}
+            };
+            var plugin = this;
+            $.ajax(options).done(function (data) {
+                plugin.replaceContent.call(plugin, data);
+                if (!plugin.$element.closest('.no-focus').length) {
+                    plugin.modal.on('shown.bs.modal', function () {
+                        plugin.modal.find(':input:not(:button):first').focus();
+                    });
+                }
+            }).fail(function (response) {
+                if (plugin.settings.onError) {
+                    plugin.settings.onError.call(plugin, response);
+                } else {
+                    plugin.replaceContent.call(plugin, response.responseText);
+                }
+            });
+        },
+
         replaceContent: function (data) {
             var plugin = this;
             var content = $('<div></div>').html(data);
@@ -100,6 +111,11 @@
             });
             content.find('[data-modal-close]').click(function () {
                 plugin.close.call(plugin, $(this).data('modal-close'));
+            });
+            content.find('a[href]:not([data-modal-close]):not([data-action]):not([target])').click(function () {
+                var $link = $(this);
+                plugin.load.call(plugin, $link.attr('href'));
+                return false;
             });
             if (this.settings.onChange) {
                 this.settings.onChange.call(plugin, content);
