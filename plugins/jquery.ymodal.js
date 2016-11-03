@@ -112,7 +112,7 @@
             content.find('[data-modal-close]').click(function () {
                 plugin.close.call(plugin, $(this).data('modal-close'));
             });
-            content.find('a[href]:not([data-modal-close]):not([data-action]):not([target])').click(function () {
+            content.find('a[href]:not([data-modal-close]):not([data-action]):not([data-no-ajax]):not([target])').click(function () {
                 var $link = $(this);
                 plugin.load.call(plugin, $link.attr('href'));
                 return false;
