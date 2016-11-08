@@ -103,10 +103,19 @@
                             return false;
                         }
                         $.each(options.split('|'), function (index, value) {
-                            if ('!' == value.charAt(0)) {
-                                groupEnabled = ref.val() != value.substring(1);
+                            var not = '!' == value.charAt(0);
+                            if (not) {
+                                value = value.substring(1);
+                            }
+                            var refValue = ref.val();
+                            if ($.isNumeric(value)) {
+                                value = parseFloat(value);
+                                refValue = parseFloat(refValue.replace(',', '.'));
+                            }
+                            if (not) {
+                                groupEnabled = refValue != value;
                             } else {
-                                groupEnabled = ref.val() == value;
+                                groupEnabled = refValue == value;
                             }
                             return groupEnabled;
                         });
