@@ -6,6 +6,8 @@ Sammlung nützlicher jQuery-Plugins (nur selbst erstellte).
 Installation
 ------------
 
+### Composer
+
 * Composer installieren
 * Composer-Asset-Plugin installieren: `composer global require "fxp/composer-asset-plugin:~1.0"`
 * `composer.json` anpassen:
@@ -28,6 +30,10 @@ Installation
     }
 }
 ```
+
+### Yarn
+
+`yarn add git+https://USERNAME:PASSWORD@github.com/yakamara/common-js.git`
 
 Plugins
 -------
