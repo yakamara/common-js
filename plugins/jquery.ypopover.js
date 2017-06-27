@@ -60,6 +60,7 @@
             }).on('shown.bs.popover', function () {
                 plugin.popover = element.data('bs.popover').$tip;
                 var popover = plugin.popover;
+                popover.data(pluginName, plugin);
                 plugin.loadContent();
                 popover.find('button.close').click(function () {
                     element.popover('hide');
