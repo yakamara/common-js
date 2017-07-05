@@ -104,7 +104,13 @@
                 method: this.settings.data ? 'POST' : 'GET',
                 headers: {'X-YPOPOVER': '1'},
                 data: this.settings.data ? this.settings.data() : null
-            }).done(function (data) {
+            }).done(function (data, textStatus, response) {
+                if (response.status == 204 || response.getResponseHeader('X-Close') == 'true') {
+                    plugin.close.call(plugin, data, response);
+
+                    return;
+                }
+
                 plugin.replaceContent(data);
                 if (!plugin.$element.closest('.no-focus').length) {
                     popover.find(':input:not(:button):first').focus();
