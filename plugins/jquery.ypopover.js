@@ -75,7 +75,6 @@
                 if (plugin.deactivateButton) {
                     element.removeClass('active');
                 }
-                clearInterval(plugin.resizeInterval);
             }).click(function () {
                 element.popover('toggle');
                 return false;
@@ -86,20 +85,6 @@
             var plugin = this;
 
             var popover = plugin.popover;
-            var height = popover.height();
-            // bootstrap issue hack
-            //if ((popover.hasClass('left') || popover.hasClass('right')) && parseInt(popover.css('top')) > 0) {
-            //    popover.css('top', 0);
-            //    popover.find('.arrow').css('top', '30px');
-            //}
-            plugin.resizeInterval = setInterval(function () {
-                if (height && popover.height() != height) {
-                    if (popover.hasClass('left') || popover.hasClass('right')) {
-                        popover.css('top', parseInt(popover.css('top')) + (height - popover.height()) / 2)
-                    }
-                    height = popover.height();
-                }
-            }, 100);
 
             $.ajax({
                 url: this.url,
@@ -144,6 +129,16 @@
             if (this.settings.onChange) {
                 this.settings.onChange.call(plugin, content);
             }
+            this.resize();
+        },
+
+        resize: function () {
+            var parent = this.popover.data('bs.popover');
+            var placement = parent.options.placement;
+
+            var calculatedOffset = parent.getCalculatedOffset(placement, parent.getPosition(), this.popover[0].offsetWidth, this.popover[0].offsetHeight);
+
+            parent.applyPlacement(calculatedOffset, placement);
         },
 
         submit: function (form) {
