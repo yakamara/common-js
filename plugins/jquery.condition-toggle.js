@@ -156,8 +156,24 @@
                         }
                     });
                 } else if ('reset' == action2) {
-                    element.find('input:text, input[type=number]').val('');
-                    element.find('select').val('').trigger('change');
+                    element.find('input:text, input[type=number]').each(function () {
+                        var $this = $(this);
+                        var value = $this.data('condition-reset');
+                        value = 'undefined' === typeof value ? '' : value;
+                        $this.val(value);
+                    });
+                    element.find('select').each(function () {
+                        var $this = $(this);
+                        var value = $this.data('condition-reset');
+                        value = 'undefined' === typeof value ? '' : value;
+                        $this.val(value).trigger('change');
+                    });
+                    element.find('.radio:first-child').parent().each(function () {
+                        var $this = $(this);
+                        var value = $this.data('condition-reset');
+                        value = 'undefined' === typeof value ? '' : value;
+                        $this.find('input:radio[value="'+value+'"]').prop('checked', true).trigger('change');
+                    });
                 }
                 if (showHide) {
                     if (duration) {
