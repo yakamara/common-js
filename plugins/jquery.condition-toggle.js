@@ -156,7 +156,7 @@
                         }
                     });
                 } else if ('reset' == action2) {
-                    element.find(':text').val('');
+                    element.find('input:text, input[type=number]').val('');
                     element.find('select').val('').trigger('change');
                 }
                 if (showHide) {
