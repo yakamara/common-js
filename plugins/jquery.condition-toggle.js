@@ -94,7 +94,11 @@
                         return groupEnabled;
                     }
                     if (ref.is(':checkbox, :radio')) {
-                        groupEnabled = ref.is(':enabled:checked');
+                        if (!ref.is(':checked')) {
+                            groupEnabled = false;
+                            return groupEnabled;
+                        }
+                        groupEnabled = 'checked' === options || ref.is(':enabled');
                         return groupEnabled;
                     }
                     if (ref.is(':input:not(select)')) {
