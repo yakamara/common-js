@@ -58,7 +58,8 @@
                 placement: element.is('[data-placement]') ? element.data('placement') : this.settings.placement,
                 template: template,
                 container: this.settings.container,
-                viewport: this.settings.viewport
+                viewport: this.settings.viewport,
+                sanitize: false
             }).on('shown.bs.popover', function () {
                 plugin.popover = element.data('bs.popover').$tip;
                 var popover = plugin.popover;
