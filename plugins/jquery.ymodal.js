@@ -81,8 +81,8 @@
                 headers: {'X-YMODAL': '1'}
             };
             var plugin = this;
-            $.ajax(options).done(function (data) {
-                plugin.replaceContent.call(plugin, data);
+            $.ajax(options).done(function (data, textStatus, response) {
+                plugin.replaceContent.call(plugin, data, response);
                 if (!plugin.$element.closest('.no-focus').length) {
                     plugin.modal.on('shown.bs.modal', function () {
                         plugin.modal.find(':input:not(:button):first').focus();
@@ -92,12 +92,12 @@
                 if (plugin.settings.onError) {
                     plugin.settings.onError.call(plugin, response);
                 } else {
-                    plugin.replaceContent.call(plugin, response.responseText);
+                    plugin.replaceContent.call(plugin, response.responseText, response);
                 }
             });
         },
 
-        replaceContent: function (data) {
+        replaceContent: function (data, response) {
             var plugin = this;
             var content = $('<div></div>').html(data);
             var title = content.find('title');
@@ -118,7 +118,7 @@
                 return false;
             });
             if (this.settings.onChange) {
-                this.settings.onChange.call(plugin, content);
+                this.settings.onChange.call(plugin, content, response);
             }
         },
 
@@ -157,14 +157,14 @@
                 if (response.status == 204 || response.getResponseHeader('X-Close') == 'true') {
                     plugin.close.call(plugin, data, response);
                 } else {
-                    plugin.replaceContent.call(plugin, data);
+                    plugin.replaceContent.call(plugin, data, response);
                 }
                 plugin.isLoading = false;
             }).fail(function (response) {
                 if (plugin.settings.onError) {
                     plugin.settings.onError.call(plugin, response);
                 } else {
-                    plugin.replaceContent.call(plugin, response.responseText);
+                    plugin.replaceContent.call(plugin, response.responseText, response);
                 }
             });
             return false;
