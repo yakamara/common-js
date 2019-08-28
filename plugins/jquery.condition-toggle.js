@@ -172,6 +172,7 @@
                         value = 'undefined' === typeof value ? '' : value;
                         $this.val(value).trigger('change');
                     });
+                    element.find('input:checkbox').prop('checked', false).trigger('change');
                     element.find('.radio:first-child').parent().each(function () {
                         var $this = $(this);
                         var value = $this.data('condition-reset');
