@@ -275,7 +275,7 @@
     });
 
     $.fn[pluginName] = function (options) {
-        return this.each(function() {
+        return $(this.get().reverse()).each(function() {
             if (!$.data(this, pluginName)) {
                 $.data(this, pluginName, new ConditionToggle(this, options));
             }
