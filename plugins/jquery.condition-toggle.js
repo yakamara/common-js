@@ -94,11 +94,15 @@
                         return groupEnabled;
                     }
                     if (ref.is(':checkbox, :radio')) {
+                        var not = options && '!' == options.charAt(0);
+                        if (not) {
+                            options = options.substring(1);
+                        }
                         if (!ref.is(':checked')) {
-                            groupEnabled = false;
+                            groupEnabled = not;
                             return groupEnabled;
                         }
-                        groupEnabled = 'checked' === options || ref.is(':enabled');
+                        groupEnabled = not != ('checked' === options || ref.is(':enabled'));
                         return groupEnabled;
                     }
                     if (ref.is(':input:not(select)')) {
