@@ -224,33 +224,53 @@
             var options = [];
             var selected = element.find(':selected');
             $.each(conditions, function (refId, optIds) {
-                options[refId] = [];
+                options[refId] = {};
                 $.each(optIds, function (index, optId) {
-                    var option = element.find('[value="' + optId + '"]');
-                    if (options && option.length) {
-                        options[refId].push(option[0]);
-                        //option.remove();
+                    var option = element.find('option[value="' + optId + '"]');
+                    if (!option.length) {
+                        return;
                     }
+
+                    var parent = option.parent();
+                    var group = parent.is('optgroup') ? parent.attr('label') : 'default';
+
+                    options[refId][group] = options[refId][group] || [];
+                    options[refId][group].push(option[0]);
                 });
             });
 
-            element.find(':not([value])').val("");
-            refSelect.find(':not([value])').val("");
-            element.find('[value!=""]').remove();
+            var addOptions = function (val) {
+                $.each(options[val] || options.default, function (group, options) {
+                    if ('default' === group) {
+                        element.append(options);
+                    } else {
+                        var optgroup = element.find('optgroup[label="' + group + '"]');
+                        if (!optgroup.length) {
+                            optgroup = $('<optgroup label="' + group + '">').appendTo(element);
+                        }
+                        optgroup.append(options);
+                    }
+                });
+                element.find('optgroup:not(:has(option))').remove();
+            }
+
+            element.find('option:not([value])').val("");
+            refSelect.find('option:not([value])').val("");
+            element.find('option[value!=""]').remove();
             var refSelected = refSelect.find(':selected').val();
             if (refSelected != '') {
-                element.append(options[refSelected] || options.default);
+                addOptions(refSelected);
             } else {
                 element.prop('disabled', true).attr('data-disabled', true);
             }
             element.val(selected.val());
             refSelect.on('change', function (event) {
                 var selectedVal = element.val();
-                element.find('[value!=""]').remove();
+                element.find('option[value!=""]').remove();
                 var val = refSelect.val();
                 if (val != '') {
                     element.prop('disabled', false).attr('data-disabled', false);
-                    element.append(options[val] || options.default);
+                    addOptions(val);
                 } else {
                     element.prop('disabled', true).attr('data-disabled', true);
                 }
