@@ -130,7 +130,7 @@
                         return groupEnabled;
                     }
                     if (typeof options == 'undefined') {
-                        groupEnabled = ref.val() ? true : false;
+                        groupEnabled = ref.val() || ref.is('div') && ref.find(':checked').length ? true : false;
                         return groupEnabled;
                     }
                     options = '[value="' + options.split('|').join('"],[value="') + '"]';
