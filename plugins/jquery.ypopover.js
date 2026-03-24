@@ -101,7 +101,7 @@
 
                 plugin.replaceContent(data);
                 if (!plugin.$element.closest('.no-focus').length) {
-                    popover.find(':input:not(:button):first').focus();
+                    setTimeout(() => popover.find(':input:not(:button):first').focus(), 50);
                 }
             }).fail(function (response) {
                 if (plugin.settings.onError) {
